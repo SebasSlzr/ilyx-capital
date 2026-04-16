@@ -1,0 +1,69 @@
+<aside class="sidebar">
+  <div class="sidebar__top">
+    <!-- ← REEMPLAZAR LOGO: Cambiar src por la ruta al logo final -->
+    <div class="sidebar__brand">
+      <img src="assets/images/ilyx-logo.png" alt="ILYX Capital" class="sidebar__logo"
+           onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+      <div class="sidebar__logo-fallback" style="display:none">ILYX</div>
+      <span class="sidebar__business-name">{{ user.businessName }}</span>
+    </div>
+  </div>
+
+  <nav class="sidebar__nav">
+    <!-- Inicio -->
+    <a routerLink="/dashboard" routerLinkActive="sidebar__item--active" class="sidebar__item">
+      <span class="sidebar__icon">⌂</span>
+      <span>Inicio</span>
+    </a>
+
+    <!-- Finanzas -->
+    <div class="sidebar__group">
+      <button class="sidebar__item sidebar__item--parent" (click)="toggleFinance()">
+        <span class="sidebar__icon">◈</span>
+        <span>Finanzas</span>
+        <span class="sidebar__arrow" [class.open]="financeOpen()">›</span>
+      </button>
+      @if (financeOpen()) {
+        <div class="sidebar__children">
+          <a routerLink="/finance/movements" routerLinkActive="sidebar__child--active" class="sidebar__child">Movimientos</a>
+          <a routerLink="/finance/history"   routerLinkActive="sidebar__child--active" class="sidebar__child">Historial</a>
+          <a routerLink="/finance/balance"   routerLinkActive="sidebar__child--active" class="sidebar__child">Balance</a>
+          <a routerLink="/finance/banks"     routerLinkActive="sidebar__child--active" class="sidebar__child">Bancos</a>
+        </div>
+      }
+    </div>
+
+    <!-- Gestión -->
+    <div class="sidebar__group">
+      <button class="sidebar__item sidebar__item--parent" (click)="toggleGestion()">
+        <span class="sidebar__icon">◉</span>
+        <span>Gestión</span>
+        <span class="sidebar__arrow" [class.open]="gestionOpen()">›</span>
+      </button>
+      @if (gestionOpen()) {
+        <div class="sidebar__children">
+          <a routerLink="/management/projects" routerLinkActive="sidebar__child--active" class="sidebar__child">Proyectos</a>
+          <a routerLink="/management/clients"  routerLinkActive="sidebar__child--active" class="sidebar__child">Clientes</a>
+          <a routerLink="/management/products" routerLinkActive="sidebar__child--active" class="sidebar__child">Productos</a>
+        </div>
+      }
+    </div>
+
+    <!-- Perfil -->
+    <a routerLink="/profile" routerLinkActive="sidebar__item--active" class="sidebar__item">
+      <span class="sidebar__icon">◎</span>
+      <span>Perfil</span>
+    </a>
+  </nav>
+
+  <div class="sidebar__bottom">
+    <div class="sidebar__user">
+      <div class="sidebar__avatar">{{ user.name.charAt(0) }}</div>
+      <div class="sidebar__user-info">
+        <span class="sidebar__user-name">{{ user.name }}</span>
+        <span class="sidebar__user-email">{{ user.email }}</span>
+      </div>
+    </div>
+    <button class="sidebar__logout" (click)="logout()">Cerrar sesión</button>
+  </div>
+</aside>

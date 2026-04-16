@@ -1,0 +1,111 @@
+@use 'styles/variables' as *;
+
+.sidebar {
+  width: 240px;
+  min-height: 100vh;
+  background: $color-bg-secondary;
+  border-right: 1px solid $color-border;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+
+  &__top { padding: 24px 16px 16px; border-bottom: 1px solid $color-border; }
+
+  &__brand { display: flex; flex-direction: column; gap: 4px; }
+
+  &__logo { width: 100px; height: auto; }
+
+  &__logo-fallback {
+    width: 80px; height: 32px;
+    align-items: center;
+    font-size: 20px; font-weight: 700;
+    color: $color-purple-primary;
+    letter-spacing: 2px;
+  }
+
+  &__business-name {
+    font-size: 12px;
+    color: $color-text-muted;
+    margin-top: 4px;
+  }
+
+  &__nav { flex: 1; padding: 12px 8px; display: flex; flex-direction: column; gap: 2px; }
+
+  &__item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 12px; border-radius: 8px;
+    color: $color-text-secondary; font-size: 14px;
+    text-decoration: none; border: none; background: none;
+    cursor: pointer; width: 100%; text-align: left;
+    transition: all 0.15s ease;
+    font-family: inherit;
+
+    &:hover { background: $color-bg-hover; color: $color-text-primary; }
+
+    &--active {
+      background: $color-purple-glow !important;
+      color: $color-purple-light !important;
+      border-left: 3px solid $color-purple-primary;
+      padding-left: 9px;
+    }
+
+    &--parent { justify-content: flex-start; }
+  }
+
+  &__icon { font-size: 16px; width: 20px; text-align: center; }
+
+  &__arrow {
+    margin-left: auto; font-size: 16px;
+    transition: transform 0.2s ease;
+    &.open { transform: rotate(90deg); }
+  }
+
+  &__children { padding: 2px 0 2px 32px; display: flex; flex-direction: column; gap: 1px; }
+
+  &__child {
+    display: block; padding: 7px 12px; border-radius: 6px;
+    color: $color-text-muted; font-size: 13px; text-decoration: none;
+    transition: all 0.15s ease;
+
+    &:hover { color: $color-text-primary; background: $color-bg-hover; }
+    &--active { color: $color-purple-light !important; background: $color-purple-glow !important; }
+  }
+
+  &__bottom {
+    padding: 12px 12px 20px;
+    border-top: 1px solid $color-border;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+
+  &__user { display: flex; align-items: center; gap: 10px; }
+
+  &__avatar {
+    width: 34px; height: 34px; border-radius: 50%;
+    background: $color-purple-primary;
+    color: $color-white; font-size: 14px; font-weight: 600;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+
+  &__user-info { display: flex; flex-direction: column; min-width: 0; }
+
+  &__user-name {
+    font-size: 13px; font-weight: 500;
+    color: $color-text-primary;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+
+  &__user-email {
+    font-size: 11px; color: $color-text-muted;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+
+  &__logout {
+    width: 100%; padding: 8px; border-radius: 6px;
+    border: 1px solid $color-border; background: transparent;
+    color: $color-text-muted; font-size: 12px; cursor: pointer;
+    transition: all 0.15s ease; font-family: inherit;
+
+    &:hover { border-color: $color-danger; color: $color-danger; background: $color-danger-bg; }
+  }
+}

@@ -1,0 +1,23 @@
+@use 'styles/variables' as *;
+
+.navbar {
+  height: 64px;
+  background: $color-bg-secondary;
+  border-bottom: 1px solid $color-border;
+  display: flex; align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  flex-shrink: 0;
+
+  &__title { font-size: 18px; font-weight: 600; color: $color-text-primary; }
+
+  &__actions { display: flex; align-items: center; gap: 8px; }
+
+  &__icon-btn {
+    width: 36px; height: 36px; border-radius: 8px;
+    border: 1px solid $color-border; background: transparent;
+    cursor: pointer; font-size: 16px;
+    transition: background 0.15s ease;
+    &:hover { background: $color-bg-hover; }
+  }
+}

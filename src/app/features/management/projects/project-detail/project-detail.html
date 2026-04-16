@@ -1,0 +1,80 @@
+<div class="pd" *ngIf="project">
+
+  <!-- Header -->
+  <div class="pd__header">
+    <button class="back-btn" (click)="goBack()">← Volver a Proyectos</button>
+    <div class="pd__title-wrap">
+      <h2 class="pd__title">{{ project.name }}</h2>
+      <span class="badge" [class.badge--active]="project.status==='active'"
+            [class.badge--paused]="project.status==='paused'"
+            [class.badge--closed]="project.status==='closed'">
+        {{ statusLabel(project.status) }}
+      </span>
+    </div>
+    @if (project.description) {
+      <p class="pd__desc">{{ project.description }}</p>
+    }
+  </div>
+
+  <!-- KPIs -->
+  <div class="pd__kpis">
+    <div class="kpi-card">
+      <div class="kpi-card__label">Ingresos</div>
+      <div class="kpi-card__value kpi-card__value--green">{{ totalIncome | currencyFormat }}</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-card__label">Egresos</div>
+      <div class="kpi-card__value kpi-card__value--red">{{ totalExpense | currencyFormat }}</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-card__label">Balance del Proyecto</div>
+      <div class="kpi-card__value"
+           [class.kpi-card__value--green]="netBalance >= 0"
+           [class.kpi-card__value--red]="netBalance < 0">
+        {{ netBalance | currencyFormat }}
+      </div>
+    </div>
+  </div>
+
+  <!-- Toolbar -->
+  <div class="pd__toolbar">
+    <h3 class="pd__subtitle">Historial del Proyecto</h3>
+    <select class="form-input pd__filter" [(ngModel)]="categoryFilter" (ngModelChange)="applyFilter()">
+      <option value="">Todas las categorías</option>
+      @for (cat of categories; track cat) {
+        <option [value]="cat">{{ cat }}</option>
+      }
+    </select>
+  </div>
+
+  <!-- Lista de entradas -->
+  <div class="pd__list">
+    @for (entry of filtered; track entry.id) {
+      <div class="entry-row">
+        <div class="entry-row__image">
+          @if (entry.image) {
+            <img [src]="entry.image" [alt]="entry.productName" />
+          } @else {
+            <div class="entry-row__image-placeholder">◻</div>
+          }
+        </div>
+        <div class="entry-row__info">
+          <span class="entry-row__product">{{ entry.productName }}</span>
+          <span class="entry-row__desc">{{ entry.description }}</span>
+        </div>
+        <div class="entry-row__meta">
+          <span class="badge-sm" [class.badge-sm--income]="entry.type==='income'" [class.badge-sm--expense]="entry.type==='expense'">
+            {{ entry.category }}
+          </span>
+          <span class="entry-row__date">{{ entry.date | date:'d MMM yyyy' }}</span>
+        </div>
+        <div class="entry-row__amount"
+             [class.entry-row__amount--income]="entry.type==='income'"
+             [class.entry-row__amount--expense]="entry.type==='expense'">
+          {{ entry.type === 'income' ? '+' : '-' }}{{ entry.amount | currencyFormat }}
+        </div>
+      </div>
+    }
+  </div>
+
+</div>

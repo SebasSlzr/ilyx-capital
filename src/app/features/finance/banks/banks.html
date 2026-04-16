@@ -1,0 +1,53 @@
+<div class="banks">
+  <div class="banks__header">
+    <div class="banks__total">Capital total distribuido: <strong>{{ totalBalance | currencyFormat }}</strong></div>
+    <button class="btn-primary" (click)="showModal.set(true)">+ Nueva Cuenta</button>
+  </div>
+
+  <div class="banks__grid">
+    @for (acc of accounts; track acc.id) {
+      <div class="account-card" (click)="goToDetail(acc.id)" role="button" tabindex="0">
+        <div class="account-card__top">
+          <span class="account-card__name">{{ acc.name }}</span>
+          <span class="account-card__bank">{{ acc.bankName }}</span>
+        </div>
+        <div class="account-card__balance">{{ acc.balance | currencyFormat }}</div>
+        <div class="account-card__movements">
+          @for (mov of acc.lastMovements; track mov) {
+            <div class="account-card__mov">{{ mov }}</div>
+          }
+        </div>
+        <div class="account-card__footer">Ver detalle →</div>
+      </div>
+    }
+  </div>
+
+  @if (showModal()) {
+    <div class="modal-overlay" (click)="showModal.set(false)">
+      <div class="modal" (click)="$event.stopPropagation()">
+        <div class="modal__header">
+          <h3 class="modal__title">Nueva Cuenta</h3>
+          <button class="modal__close" (click)="showModal.set(false)">✕</button>
+        </div>
+        <div class="modal__body">
+          <div class="form-field">
+            <label class="form-label">Nombre de la cuenta</label>
+            <input class="form-input" [(ngModel)]="newAccount.name" placeholder="Ej: Cuenta Nómina" />
+          </div>
+          <div class="form-field">
+            <label class="form-label">Banco</label>
+            <input class="form-input" [(ngModel)]="newAccount.bankName" placeholder="Ej: Bancolombia, Nequi..." />
+          </div>
+          <div class="form-field">
+            <label class="form-label">Saldo inicial</label>
+            <input class="form-input" type="number" [(ngModel)]="newAccount.balance" placeholder="0" />
+          </div>
+        </div>
+        <div class="modal__footer">
+          <button class="btn-secondary" (click)="showModal.set(false)">Cancelar</button>
+          <button class="btn-primary" (click)="save()">Crear cuenta</button>
+        </div>
+      </div>
+    </div>
+  }
+</div>

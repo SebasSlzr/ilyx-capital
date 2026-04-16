@@ -1,0 +1,46 @@
+<div class="history">
+  <div class="history__toolbar">
+    <input class="form-input history__search" [(ngModel)]="search" (ngModelChange)="applyFilters()" placeholder="🔍  Buscar por descripción..." />
+    <select class="form-input history__select" [(ngModel)]="typeFilter" (ngModelChange)="applyFilters()">
+      <option value="all">Todos</option>
+      <option value="income">Ingresos</option>
+      <option value="expense">Egresos</option>
+    </select>
+    <select class="form-input history__select" [(ngModel)]="categoryFilter" (ngModelChange)="applyFilters()">
+      <option value="">Todas las categorías</option>
+      @for (cat of categories; track cat) { <option [value]="cat">{{ cat }}</option> }
+    </select>
+    <button class="btn-secondary" (click)="export()">↓ Exportar</button>
+  </div>
+
+  <div class="history__summary">
+    <div class="summary-pill summary-pill--income">Ingresos: <strong>{{ totalIncome | currencyFormat }}</strong></div>
+    <div class="summary-pill summary-pill--expense">Egresos: <strong>{{ totalExpense | currencyFormat }}</strong></div>
+    <div class="summary-pill">Total registros: <strong>{{ filtered.length }}</strong></div>
+  </div>
+
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead><tr>
+        <th>Tipo</th><th>Descripción</th><th>Categoría</th><th>Fecha</th><th>Monto</th>
+      </tr></thead>
+      <tbody>
+        @for (m of filtered; track m.id) {
+          <tr>
+            <td><span class="badge" [class.badge--income]="m.type==='income'" [class.badge--expense]="m.type==='expense'">{{ m.type === 'income' ? 'Ingreso' : 'Egreso' }}</span></td>
+            <td>{{ m.description }}</td>
+            <td class="td-muted">{{ m.category }}</td>
+            <td class="td-muted">{{ m.date | date:'d MMM yyyy' }}</td>
+            <td [class.td-income]="m.type==='income'" [class.td-expense]="m.type==='expense'" style="font-weight:600">
+              {{ m.type === 'income' ? '+' : '-' }}{{ m.amount | currencyFormat }}
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  @if (showToast) {
+    <div class="toast">⏳ Función próximamente disponible</div>
+  }
+</div>

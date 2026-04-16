@@ -1,0 +1,65 @@
+<div class="projects">
+  <div class="projects__header">
+    <span class="projects__count">{{ projects.length }} proyectos</span>
+    <button class="btn-primary" (click)="showModal.set(true)">+ Nuevo Proyecto</button>
+  </div>
+
+  <div class="projects__grid">
+    @for (p of projects; track p.id) {
+      <div class="project-card" (click)="goToDetail(p.id)" style="cursor:pointer">
+        <div class="project-card__top">
+          <h3 class="project-card__name">{{ p.name }}</h3>
+          <span class="badge" [class.badge--active]="p.status==='active'" [class.badge--paused]="p.status==='paused'" [class.badge--closed]="p.status==='closed'">
+            {{ statusLabel(p.status) }}
+          </span>
+        </div>
+        @if (p.description) { <p class="project-card__desc">{{ p.description }}</p> }
+        <div class="project-card__stats">
+          <div class="project-stat">
+            <span class="project-stat__label">Ingresos</span>
+            <span class="project-stat__value project-stat__value--green">{{ p.totalIncome | currencyFormat }}</span>
+          </div>
+          <div class="project-stat">
+            <span class="project-stat__label">Egresos</span>
+            <span class="project-stat__value project-stat__value--red">{{ p.totalExpense | currencyFormat }}</span>
+          </div>
+          <div class="project-stat">
+            <span class="project-stat__label">Balance</span>
+            <span class="project-stat__value" [class.project-stat__value--green]="p.totalIncome - p.totalExpense >= 0">
+              {{ (p.totalIncome - p.totalExpense) | currencyFormat }}
+            </span>
+          </div>
+        </div>
+        <div class="project-card__footer">Creado {{ p.createdAt | date:'d MMM yyyy' }}</div>
+        <div class="project-card-detail__footer">Ver detalle →</div>
+      </div>
+    }
+  </div>
+
+  @if (showModal()) {
+    <div class="modal-overlay" (click)="showModal.set(false)">
+      <div class="modal" (click)="$event.stopPropagation()">
+        <div class="modal__header">
+          <h3 class="modal__title">Nuevo Proyecto</h3>
+          <button class="modal__close" (click)="showModal.set(false)">✕</button>
+        </div>
+        <div class="modal__body">
+          <div class="form-field"><label class="form-label">Nombre</label><input class="form-input" [(ngModel)]="form.name" placeholder="Nombre del proyecto" /></div>
+          <div class="form-field"><label class="form-label">Descripción</label><textarea class="form-input form-textarea" [(ngModel)]="form.description" placeholder="Descripción opcional"></textarea></div>
+          <div class="form-field">
+            <label class="form-label">Estado</label>
+            <select class="form-input" [(ngModel)]="form.status">
+              <option value="active">Activo</option>
+              <option value="paused">Pausado</option>
+              <option value="closed">Cerrado</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal__footer">
+          <button class="btn-secondary" (click)="showModal.set(false)">Cancelar</button>
+          <button class="btn-primary" (click)="save()">Crear proyecto</button>
+        </div>
+      </div>
+    </div>
+  }
+</div>

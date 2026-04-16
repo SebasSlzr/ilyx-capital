@@ -1,0 +1,111 @@
+<div class="movements">
+
+  <div class="movements__header">
+    <div class="movements__filters">
+      <button class="filter-btn" [class.active]="activeFilter === 'all'"     (click)="setFilter('all')">Todos</button>
+      <button class="filter-btn" [class.active]="activeFilter === 'income'"  (click)="setFilter('income')">Ingresos</button>
+      <button class="filter-btn" [class.active]="activeFilter === 'expense'" (click)="setFilter('expense')">Egresos</button>
+    </div>
+    <button class="btn-primary" (click)="openNew()">+ Nuevo Movimiento</button>
+  </div>
+
+  <div class="movements__table-wrap">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Tipo</th>
+          <th>Descripción</th>
+          <th>Categoría</th>
+          <th>Fecha</th>
+          <th>Monto</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (m of filtered; track m.id) {
+          <tr>
+            <td>
+              <span class="badge" [class.badge--income]="m.type === 'income'" [class.badge--expense]="m.type === 'expense'">
+                {{ m.type === 'income' ? 'Ingreso' : 'Egreso' }}
+              </span>
+            </td>
+            <td class="td-desc">{{ m.description }}</td>
+            <td class="td-muted">{{ m.category }}</td>
+            <td class="td-muted">{{ m.date | date:'d MMM yyyy' }}</td>
+            <td class="td-amount" [class.td-amount--income]="m.type === 'income'" [class.td-amount--expense]="m.type === 'expense'">
+              {{ m.type === 'income' ? '+' : '-' }}{{ m.amount | currencyFormat }}
+            </td>
+            <td>
+              <div class="table-actions">
+                <button class="action-btn" (click)="openEdit(m)">✏</button>
+                <button class="action-btn action-btn--danger" (click)="confirmDelete(m.id)">✕</button>
+              </div>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Modal Nuevo/Editar -->
+  @if (showModal()) {
+    <div class="modal-overlay" (click)="closeModal()">
+      <div class="modal" (click)="$event.stopPropagation()">
+        <div class="modal__header">
+          <h3 class="modal__title">{{ isEditing ? 'Editar Movimiento' : 'Registrar Movimiento' }}</h3>
+          <button class="modal__close" (click)="closeModal()">✕</button>
+        </div>
+
+        <div class="modal__body">
+          <div class="modal__toggle">
+            <button class="toggle-btn" [class.toggle-btn--income]="form.type === 'income'"   (click)="form.type = 'income'">↑ Ingreso</button>
+            <button class="toggle-btn" [class.toggle-btn--expense]="form.type === 'expense'" (click)="form.type = 'expense'">↓ Egreso</button>
+          </div>
+
+          <div class="form-field">
+            <label class="form-label">Monto</label>
+            <input class="form-input" type="number" [(ngModel)]="form.amount" placeholder="0" />
+          </div>
+          <div class="form-field">
+            <label class="form-label">Categoría</label>
+            <select class="form-input" [(ngModel)]="form.category">
+              @for (cat of categories; track cat) {
+                <option [value]="cat">{{ cat }}</option>
+              }
+            </select>
+          </div>
+          <div class="form-field">
+            <label class="form-label">Descripción</label>
+            <textarea class="form-input form-textarea" [(ngModel)]="form.description" placeholder="Describe el movimiento..."></textarea>
+          </div>
+          <div class="form-field">
+            <label class="form-label">Fecha</label>
+            <input class="form-input" type="date" [(ngModel)]="form.dateStr" />
+          </div>
+        </div>
+
+        <div class="modal__footer">
+          <button class="btn-secondary" (click)="closeModal()">Cancelar</button>
+          <button class="btn-primary" (click)="save()">{{ isEditing ? 'Guardar cambios' : 'Registrar' }}</button>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- Confirm Delete -->
+  @if (deleteConfirmId) {
+    <div class="modal-overlay" (click)="deleteConfirmId = null">
+      <div class="modal modal--sm" (click)="$event.stopPropagation()">
+        <div class="modal__header">
+          <h3 class="modal__title">¿Eliminar movimiento?</h3>
+        </div>
+        <p class="modal__text">Esta acción no se puede deshacer.</p>
+        <div class="modal__footer">
+          <button class="btn-secondary" (click)="deleteConfirmId = null">Cancelar</button>
+          <button class="btn-primary btn-primary--danger" (click)="doDelete()">Eliminar</button>
+        </div>
+      </div>
+    </div>
+  }
+
+</div>

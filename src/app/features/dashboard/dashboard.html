@@ -1,0 +1,105 @@
+<div class="dashboard">
+
+  <!-- Encabezado -->
+  <div class="dashboard__header">
+    <div>
+      <h2 class="dashboard__greeting">{{ greeting }}, {{ userName }} 👋</h2>
+      <p class="dashboard__meta">{{ today | date:'d \'de\' MMMM yyyy' }} · {{ businessName }}</p>
+    </div>
+    <button class="btn-primary" (click)="goToMovements()">+ Nuevo Movimiento</button>
+  </div>
+
+  <!-- Gráficas -->
+  <div class="dashboard__charts">
+
+    <div class="chart-card chart-card--income">
+      <div class="chart-card__info">
+        <span class="chart-card__label">Ingresos</span>
+        <span class="chart-card__value">{{ totalIncome | currencyFormat }}</span>
+        <span class="chart-card__trend chart-card__trend--up">↑ +12% vs período anterior</span>
+      </div>
+      <div class="chart-card__graph">
+        <canvas baseChart
+          [data]="incomeChartData"
+          [options]="incomeChartOptions"
+          type="line">
+        </canvas>
+      </div>
+    </div>
+
+    <div class="chart-card chart-card--expense">
+      <div class="chart-card__info">
+        <span class="chart-card__label">Egresos</span>
+        <span class="chart-card__value">{{ totalExpense | currencyFormat }}</span>
+        <span class="chart-card__trend chart-card__trend--down">↑ +3% vs período anterior</span>
+      </div>
+      <div class="chart-card__graph">
+        <canvas baseChart
+          [data]="expenseChartData"
+          [options]="expenseChartOptions"
+          type="line">
+        </canvas>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Toggle período -->
+  <div class="dashboard__period-toggle">
+    <button class="period-btn" [class.active]="activePeriod === 'mes'"    (click)="setPeriod('mes')">Mes</button>
+    <button class="period-btn" [class.active]="activePeriod === 'semana'" (click)="setPeriod('semana')">Semana</button>
+    <button class="period-btn" [class.active]="activePeriod === 'dia'"    (click)="setPeriod('dia')">Día</button>
+  </div>
+
+  <!-- KPI Cards -->
+  <div class="dashboard__kpis">
+    <div class="kpi-card">
+      <div class="kpi-card__top">
+        <span class="kpi-card__label">Capital Total (Cuentas)</span>
+        <span class="kpi-card__icon kpi-card__icon--purple">◈</span>
+      </div>
+      <div class="kpi-card__value">{{ totalCapital | currencyFormat }}</div>
+      <div class="kpi-card__trend kpi-card__trend--up">↑ +8% vs mes anterior</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-card__top">
+        <span class="kpi-card__label">Balance Neto</span>
+        <span class="kpi-card__icon kpi-card__icon--green">◎</span>
+      </div>
+      <div class="kpi-card__value" [class.kpi-card__value--green]="netBalance >= 0" [class.kpi-card__value--red]="netBalance < 0">
+        {{ netBalance | currencyFormat }}
+      </div>
+      <div class="kpi-card__trend kpi-card__trend--up">↑ +18% vs mes anterior</div>
+    </div>
+  </div>
+
+  <!-- Movimientos Recientes -->
+  <div class="dashboard__section">
+    <div class="dashboard__section-header">
+      <h3 class="dashboard__section-title">Movimientos Recientes</h3>
+      <button class="btn-secondary dashboard__see-all" (click)="goToHistory()">Ver todos →</button>
+    </div>
+    <div class="movements-list">
+      @for (mov of recentMovements; track mov.id) {
+        <div class="movement-item">
+          <div class="movement-item__icon"
+               [class.movement-item__icon--income]="mov.type === 'income'"
+               [class.movement-item__icon--expense]="mov.type === 'expense'">
+            {{ mov.type === 'income' ? '↑' : '↓' }}
+          </div>
+          <div class="movement-item__info">
+            <span class="movement-item__desc">{{ mov.description }}</span>
+            <span class="movement-item__cat">{{ mov.category }} · {{ mov.date | date:'d MMM yyyy' }}</span>
+          </div>
+          <div class="movement-item__amount"
+               [class.movement-item__amount--income]="mov.type === 'income'"
+               [class.movement-item__amount--expense]="mov.type === 'expense'">
+            {{ mov.type === 'income' ? '+' : '-' }}{{ mov.amount | currencyFormat }}
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+
+</div>

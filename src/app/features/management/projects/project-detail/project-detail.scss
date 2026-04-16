@@ -1,0 +1,99 @@
+@use 'styles/variables' as *;
+
+.pd { display: flex; flex-direction: column; gap: 24px; }
+
+.pd__header { display: flex; flex-direction: column; gap: 10px; }
+
+.back-btn {
+  align-self: flex-start; padding: 8px 16px; border-radius: 8px;
+  border: 1px solid $color-border; background: transparent;
+  color: $color-text-secondary; font-size: 13px; cursor: pointer;
+  font-family: inherit; transition: all 0.15s ease;
+  &:hover { background: $color-bg-hover; color: $color-text-primary; }
+}
+
+.pd__title-wrap { display: flex; align-items: center; gap: 12px; }
+.pd__title { font-size: 24px; font-weight: 600; color: $color-text-primary; }
+.pd__desc  { font-size: 14px; color: $color-text-muted; }
+
+.pd__kpis { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+
+.kpi-card {
+  background: $color-bg-card; border: 1px solid $color-border;
+  border-radius: 12px; padding: 20px 24px;
+  &__label { font-size: 12px; color: $color-text-muted; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
+  &__value { font-size: 26px; font-weight: 700; color: $color-text-primary;
+    &--green { color: $color-success; }
+    &--red   { color: $color-danger; }
+  }
+}
+
+.pd__toolbar {
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 16px;
+}
+
+.pd__subtitle { font-size: 16px; font-weight: 600; color: $color-text-primary; }
+
+.pd__filter { width: 220px; }
+
+.form-input {
+  background: $color-bg-secondary; border: 1px solid $color-border;
+  border-radius: 8px; padding: 10px 14px; color: $color-text-primary;
+  font-size: 14px; font-family: inherit; outline: none;
+  transition: border-color 0.2s ease;
+  &:focus { border-color: $color-purple-primary; }
+  option { background: $color-bg-secondary; }
+}
+
+.pd__list {
+  background: $color-bg-card; border: 1px solid $color-border;
+  border-radius: 12px; overflow: hidden;
+  display: flex; flex-direction: column;
+}
+
+.entry-row {
+  display: flex; align-items: center; gap: 16px;
+  padding: 14px 20px; border-bottom: 1px solid $color-border;
+  transition: background 0.15s ease;
+  &:last-child { border-bottom: none; }
+  &:hover { background: $color-bg-hover; }
+
+  &__image {
+    width: 52px; height: 52px; border-radius: 8px; flex-shrink: 0;
+    overflow: hidden; background: $color-bg-secondary;
+    border: 1px solid $color-border;
+    img { width: 100%; height: 100%; object-fit: cover; }
+  }
+
+  &__image-placeholder {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; color: $color-text-muted;
+  }
+
+  &__info { flex: 1; display: flex; flex-direction: column; gap: 3px; }
+  &__product { font-size: 14px; font-weight: 500; color: $color-text-primary; }
+  &__desc    { font-size: 12px; color: $color-text-muted; }
+
+  &__meta { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+  &__date { font-size: 12px; color: $color-text-muted; }
+
+  &__amount { font-size: 15px; font-weight: 700; min-width: 130px; text-align: right;
+    &--income  { color: $color-success; }
+    &--expense { color: $color-danger; }
+  }
+}
+
+.badge {
+  display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 500;
+  &--active { background: $color-success-bg; color: $color-success; }
+  &--paused { background: rgba(245,158,11,0.1); color: $color-warning; }
+  &--closed { background: $color-bg-hover; color: $color-text-muted; }
+}
+
+.badge-sm {
+  display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 500;
+  &--income  { background: $color-success-bg; color: $color-success; }
+  &--expense { background: $color-danger-bg;  color: $color-danger; }
+}

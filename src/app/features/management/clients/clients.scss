@@ -1,0 +1,51 @@
+@use 'styles/variables' as *;
+
+.clients { display: flex; flex-direction: column; gap: 20px; }
+.clients__header { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+.clients__search { flex: 1; max-width: 340px; }
+
+.table-wrap { background: $color-bg-card; border: 1px solid $color-border; border-radius: 12px; overflow: hidden; }
+
+.data-table { width: 100%; border-collapse: collapse;
+  th { padding: 12px 16px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: $color-text-muted; background: $color-bg-secondary; border-bottom: 1px solid $color-border; text-align: left; }
+  td { padding: 13px 16px; border-bottom: 1px solid $color-border; font-size: 14px; color: $color-text-primary; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: $color-bg-hover; }
+}
+
+.client-name { display: flex; align-items: center; gap: 10px; font-weight: 500; }
+.client-avatar { width: 32px; height: 32px; border-radius: 50%; background: $color-purple-primary; color: $color-white; font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.td-muted { color: $color-text-secondary; }
+
+.badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 500;
+  &--purple { background: $color-purple-glow; color: $color-purple-light; }
+}
+
+.table-actions { display: flex; gap: 6px; }
+.action-btn { width: 30px; height: 30px; border-radius: 6px; border: 1px solid $color-border; background: transparent; color: $color-text-muted; cursor: pointer; font-size: 13px; transition: all 0.15s ease;
+  &:hover { background: $color-bg-hover; color: $color-text-primary; }
+  &--danger:hover { border-color: $color-danger; color: $color-danger; background: $color-danger-bg; }
+}
+
+.detail-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid $color-border;
+  &:last-child { border-bottom: none; }
+}
+.detail-label { font-size: 12px; color: $color-text-muted; }
+.detail-value { font-size: 14px; color: $color-text-primary; font-weight: 500; }
+
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; z-index: 100; backdrop-filter: blur(2px); animation: fadeIn 0.15s ease; }
+.modal { background: $color-bg-card; border: 1px solid $color-border; border-radius: 16px; padding: 28px; width: 100%; max-width: 460px; animation: slideUp 0.2s ease;
+  &__header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+  &__title { font-size: 18px; font-weight: 600; color: $color-text-primary; }
+  &__close { background: none; border: none; color: $color-text-muted; font-size: 18px; cursor: pointer; }
+  &__body { display: flex; flex-direction: column; gap: 14px; margin-bottom: 20px; }
+  &__footer { display: flex; justify-content: flex-end; gap: 10px; }
+}
+.form-field { display: flex; flex-direction: column; gap: 6px; }
+.form-label { font-size: 12px; font-weight: 500; color: $color-text-secondary; }
+.form-input { background: $color-bg-secondary; border: 1px solid $color-border; border-radius: 8px; padding: 10px 14px; color: $color-text-primary; font-size: 14px; font-family: inherit; outline: none;
+  &::placeholder { color: $color-text-muted; }
+  &:focus { border-color: $color-purple-primary; }
+}
+@keyframes fadeIn  { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { transform: translateY(16px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }

@@ -1,0 +1,125 @@
+@use 'styles/variables' as *;
+
+.dashboard {
+  display: flex; flex-direction: column; gap: 20px;
+
+  &__header { display: flex; justify-content: space-between; align-items: flex-start; }
+  &__greeting { font-size: 24px; font-weight: 600; color: $color-text-primary; }
+  &__meta { font-size: 13px; color: $color-text-muted; margin-top: 4px; }
+
+  &__charts {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+  }
+
+  &__period-toggle {
+    display: flex; gap: 8px;
+  }
+
+  &__kpis {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+  }
+
+  &__section {
+    background: $color-bg-card; border: 1px solid $color-border;
+    border-radius: 12px; padding: 20px 24px;
+  }
+
+  &__section-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 16px;
+  }
+
+  &__section-title { font-size: 16px; font-weight: 600; color: $color-text-primary; }
+  &__see-all { padding: 6px 14px; font-size: 13px; }
+}
+
+// Gráficas
+.chart-card {
+  background: $color-bg-card; border: 1px solid $color-border;
+  border-radius: 12px; padding: 20px 24px;
+  display: flex; flex-direction: column; gap: 16px;
+
+  &--income { border-left: 3px solid $color-success; }
+  &--expense { border-left: 3px solid $color-danger; }
+
+  &__info { display: flex; flex-direction: column; gap: 4px; }
+
+  &__label {
+    font-size: 11px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.06em; color: $color-text-muted;
+  }
+
+  &__value { font-size: 26px; font-weight: 700; color: $color-text-primary; }
+
+  &__trend {
+    font-size: 12px;
+    &--up   { color: $color-success; }
+    &--down { color: $color-danger; }
+  }
+
+  &__graph { height: 120px; position: relative; }
+}
+
+// Toggle
+.period-btn {
+  padding: 8px 20px; border-radius: 8px; font-size: 13px;
+  border: 1px solid $color-border; background: transparent;
+  color: $color-text-secondary; cursor: pointer; font-family: inherit;
+  transition: all 0.15s ease;
+  &:hover { background: $color-bg-hover; color: $color-text-primary; }
+  &.active { background: $color-purple-glow; color: $color-purple-light; border-color: $color-purple-primary; }
+}
+
+// KPI Cards
+.kpi-card {
+  background: $color-bg-card; border: 1px solid $color-border;
+  border-radius: 12px; padding: 20px 24px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+  display: flex; flex-direction: column; gap: 8px;
+
+  &__top { display: flex; justify-content: space-between; align-items: center; }
+  &__label { font-size: 12px; color: $color-text-muted; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; }
+  &__icon {
+    width: 32px; height: 32px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center; font-size: 16px;
+    &--purple { background: $color-purple-glow; color: $color-purple-light; }
+    &--green  { background: $color-success-bg;  color: $color-success; }
+  }
+  &__value {
+    font-size: 28px; font-weight: 700; color: $color-text-primary;
+    &--green { color: $color-success; }
+    &--red   { color: $color-danger; }
+  }
+  &__trend {
+    font-size: 12px;
+    &--up   { color: $color-success; }
+    &--down { color: $color-danger; }
+  }
+}
+
+// Movimientos recientes
+.movements-list { display: flex; flex-direction: column; gap: 2px; }
+
+.movement-item {
+  display: flex; align-items: center; gap: 14px;
+  padding: 12px 8px; border-radius: 8px; transition: background 0.15s ease;
+  &:hover { background: $color-bg-hover; }
+
+  &__icon {
+    width: 36px; height: 36px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; font-weight: 700; flex-shrink: 0;
+    &--income  { background: $color-success-bg; color: $color-success; }
+    &--expense { background: $color-danger-bg;  color: $color-danger; }
+  }
+
+  &__info { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+  &__desc { font-size: 14px; color: $color-text-primary; }
+  &__cat  { font-size: 12px; color: $color-text-muted; }
+
+  &__amount {
+    font-size: 14px; font-weight: 600;
+    &--income  { color: $color-success; }
+    &--expense { color: $color-danger; }
+  }
+}

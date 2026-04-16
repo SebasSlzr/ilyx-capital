@@ -1,0 +1,91 @@
+<div class="profile">
+
+  <!-- Mi Perfil -->
+  <div class="profile-section">
+    <div class="profile-section__header">
+      <h3 class="profile-section__title">Mi Perfil</h3>
+      <button class="btn-secondary profile-section__edit" (click)="editingProfile = !editingProfile">
+        {{ editingProfile ? 'Cancelar' : '✏ Editar' }}
+      </button>
+    </div>
+    <div class="profile-section__body">
+      <div class="profile-avatar">{{ user.name.charAt(0) }}</div>
+      <div class="profile-fields">
+        <div class="form-field">
+          <label class="form-label">Nombre</label>
+          <input class="form-input" [(ngModel)]="user.name" [disabled]="!editingProfile" />
+        </div>
+        <div class="form-field">
+          <label class="form-label">Correo</label>
+          <input class="form-input" [(ngModel)]="user.email" [disabled]="!editingProfile" />
+        </div>
+        <div class="form-field">
+          <label class="form-label">Teléfono</label>
+          <input class="form-input" [(ngModel)]="user.phone" [disabled]="!editingProfile" placeholder="Sin teléfono registrado" />
+        </div>
+        @if (editingProfile) {
+          <button class="btn-primary" (click)="saveProfile()">Guardar cambios</button>
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- Mi Negocio -->
+  <div class="profile-section">
+    <div class="profile-section__header">
+      <h3 class="profile-section__title">Mi Negocio</h3>
+      <button class="btn-secondary profile-section__edit" (click)="editingBusiness = !editingBusiness">
+        {{ editingBusiness ? 'Cancelar' : '✏ Editar' }}
+      </button>
+    </div>
+    <div class="profile-fields">
+      <div class="form-field">
+        <label class="form-label">Nombre del negocio</label>
+        <input class="form-input" [(ngModel)]="user.businessName" [disabled]="!editingBusiness" />
+      </div>
+      <div class="form-field">
+        <label class="form-label">Tipo de negocio</label>
+        <input class="form-input" [(ngModel)]="user.businessType" [disabled]="!editingBusiness" placeholder="Ej: Emprendimiento, Retail..." />
+      </div>
+      <div class="form-field">
+        <label class="form-label">Descripción</label>
+        <textarea class="form-input form-textarea" [(ngModel)]="user.businessDescription" [disabled]="!editingBusiness"></textarea>
+      </div>
+      @if (editingBusiness) {
+        <button class="btn-primary" (click)="saveBusiness()">Guardar cambios</button>
+      }
+    </div>
+  </div>
+
+  <!-- Preferencias -->
+  <div class="profile-section">
+    <div class="profile-section__header">
+      <h3 class="profile-section__title">Preferencias</h3>
+    </div>
+    <div class="preferences">
+      <div class="pref-row">
+        <div>
+          <div class="pref-label">Notificaciones</div>
+          <div class="pref-desc">Recibir alertas del sistema</div>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" [(ngModel)]="notifications" />
+          <span class="toggle__slider"></span>
+        </label>
+      </div>
+      <div class="pref-row">
+        <div>
+          <div class="pref-label">Moneda</div>
+          <div class="pref-desc">Formato de visualización</div>
+        </div>
+        <select class="form-input pref-select" [(ngModel)]="currency">
+          <option value="COP">COP — Peso colombiano</option>
+          <option value="USD">USD — Dólar americano</option>
+          <option value="EUR">EUR — Euro</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <button class="btn-danger" (click)="logout()">Cerrar Sesión</button>
+</div>

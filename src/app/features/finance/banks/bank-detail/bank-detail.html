@@ -1,0 +1,73 @@
+<div class="bank-detail" *ngIf="account">
+
+  <div class="bank-detail__header">
+    <button class="back-btn" (click)="goBack()">← Volver a Bancos</button>
+    <div class="bank-detail__title-wrap">
+      <h2 class="bank-detail__title">{{ account.name }}</h2>
+      <span class="bank-detail__bank-name">{{ account.bankName }}</span>
+    </div>
+  </div>
+
+  <div class="bank-detail__kpis">
+    <div class="kpi-card">
+      <div class="kpi-card__label">Saldo Actual</div>
+      <div class="kpi-card__value">{{ account.balance | currencyFormat }}</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-card__label">Total Ingresos</div>
+      <div class="kpi-card__value kpi-card__value--green">{{ totalIncome | currencyFormat }}</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-card__label">Total Egresos</div>
+      <div class="kpi-card__value kpi-card__value--red">{{ totalExpense | currencyFormat }}</div>
+    </div>
+  </div>
+
+  <div class="bank-detail__table-wrap">
+    <div class="bank-detail__table-header">
+      <h3 class="bank-detail__subtitle">Movimientos de la cuenta</h3>
+      <span class="bank-detail__count">{{ account.movements.length }} registros</span>
+    </div>
+
+    <div class="bank-detail__cols">
+
+      <div class="bank-detail__col">
+        <div class="col-title col-title--income">↑ Ingresos</div>
+        <table class="data-table">
+          <thead><tr><th>Descripción</th><th>Fecha</th><th>Monto</th></tr></thead>
+          <tbody>
+            @for (m of account.movements; track m.description) {
+              @if (m.type === 'income') {
+                <tr>
+                  <td>{{ m.description }}</td>
+                  <td class="td-muted">{{ m.date | date:'d MMM yyyy' }}</td>
+                  <td class="td-income" style="font-weight:600">+{{ m.amount | currencyFormat }}</td>
+                </tr>
+              }
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <div class="bank-detail__col">
+        <div class="col-title col-title--expense">↓ Egresos</div>
+        <table class="data-table">
+          <thead><tr><th>Descripción</th><th>Fecha</th><th>Monto</th></tr></thead>
+          <tbody>
+            @for (m of account.movements; track m.description) {
+              @if (m.type === 'expense') {
+                <tr>
+                  <td>{{ m.description }}</td>
+                  <td class="td-muted">{{ m.date | date:'d MMM yyyy' }}</td>
+                  <td class="td-expense" style="font-weight:600">-{{ m.amount | currencyFormat }}</td>
+                </tr>
+              }
+            }
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,77 @@
+@use 'styles/variables' as *;
+
+.signup {
+  display: flex; align-items: center; justify-content: center;
+  min-height: 100vh;
+
+  &__card {
+    display: flex; flex-direction: row;
+    width: 100%; max-width: 780px;
+    background: $color-bg-card;
+    border: 1px solid $color-border;
+    border-radius: 16px;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.4);
+    overflow: hidden;
+  }
+
+  &__left {
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 20px;
+    width: 300px; flex-shrink: 0;
+    padding: 48px 32px;
+    background: $color-bg-secondary;
+  }
+
+  &__logo { width: 140px; height: auto; }
+
+  &__tagline {
+    font-size: 14px; color: $color-text-muted;
+    text-align: center; line-height: 1.6;
+  }
+
+  &__divider {
+    width: 1px;
+    background: $color-border;
+    flex-shrink: 0;
+  }
+
+  &__right {
+    flex: 1;
+    padding: 40px 36px;
+    display: flex; flex-direction: column; gap: 20px;
+  }
+
+  &__title {
+    font-size: 22px; font-weight: 600;
+    color: $color-text-primary;
+  }
+
+  &__form { display: flex; flex-direction: column; gap: 14px; }
+
+  &__field { display: flex; flex-direction: column; gap: 6px; }
+
+  &__label { font-size: 12px; font-weight: 500; color: $color-text-secondary; }
+
+  &__input {
+    background: $color-bg-primary;
+    border: 1px solid $color-border;
+    border-radius: 8px;
+    padding: 10px 14px;
+    color: $color-text-primary;
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.2s ease;
+    &::placeholder { color: $color-text-muted; }
+    &:focus { border-color: $color-purple-primary; }
+  }
+
+  &__btn { width: 100%; padding: 12px; font-size: 15px; margin-top: 4px; }
+
+  &__login-link {
+    text-align: center; font-size: 13px; color: $color-text-muted;
+    a { color: $color-purple-light; margin-left: 4px;
+        &:hover { color: $color-text-primary; } }
+  }
+}

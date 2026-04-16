@@ -1,0 +1,65 @@
+@use 'styles/variables' as *;
+
+.profile { display: flex; flex-direction: column; gap: 20px; max-width: 680px; }
+
+.profile-section {
+  background: $color-bg-card; border: 1px solid $color-border; border-radius: 12px; padding: 24px;
+
+  &__header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+  &__title  { font-size: 16px; font-weight: 600; color: $color-text-primary; }
+  &__edit   { padding: 6px 14px; font-size: 13px; }
+  &__body   { display: flex; gap: 24px; align-items: flex-start; }
+}
+
+.profile-avatar {
+  width: 72px; height: 72px; border-radius: 50%;
+  background: $color-purple-primary; color: $color-white;
+  font-size: 28px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+
+.profile-fields { flex: 1; display: flex; flex-direction: column; gap: 14px; }
+
+.form-field { display: flex; flex-direction: column; gap: 6px; }
+.form-label { font-size: 12px; font-weight: 500; color: $color-text-secondary; }
+.form-input {
+  background: $color-bg-secondary; border: 1px solid $color-border; border-radius: 8px;
+  padding: 10px 14px; color: $color-text-primary; font-size: 14px; font-family: inherit; outline: none;
+  transition: border-color 0.2s ease;
+  &:focus { border-color: $color-purple-primary; }
+  &:disabled { opacity: 0.6; cursor: not-allowed; }
+  option { background: $color-bg-secondary; }
+}
+.form-textarea { resize: vertical; min-height: 80px; }
+
+.preferences { display: flex; flex-direction: column; gap: 0; }
+
+.pref-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 14px 0; border-bottom: 1px solid $color-border;
+  &:last-child { border-bottom: none; }
+}
+
+.pref-label { font-size: 14px; color: $color-text-primary; font-weight: 500; }
+.pref-desc  { font-size: 12px; color: $color-text-muted; margin-top: 2px; }
+.pref-select { width: 220px; }
+
+// Toggle switch
+.toggle { position: relative; display: inline-block; width: 44px; height: 24px; flex-shrink: 0;
+  input { opacity: 0; width: 0; height: 0; }
+  &__slider {
+    position: absolute; inset: 0; background: $color-border; border-radius: 24px; cursor: pointer; transition: 0.2s;
+    &::before { content: ''; position: absolute; height: 18px; width: 18px; left: 3px; bottom: 3px; background: $color-white; border-radius: 50%; transition: 0.2s; }
+  }
+  input:checked + .toggle__slider { background: $color-purple-primary; }
+  input:checked + .toggle__slider::before { transform: translateX(20px); }
+}
+
+.btn-danger {
+  background: $color-danger-bg; color: $color-danger;
+  border: 1px solid $color-danger; border-radius: 8px;
+  padding: 10px 20px; font-size: 14px; font-weight: 500;
+  cursor: pointer; font-family: inherit; transition: all 0.2s ease;
+  align-self: flex-start;
+  &:hover { background: $color-danger; color: $color-white; }
+}

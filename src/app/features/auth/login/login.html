@@ -1,0 +1,30 @@
+<div class="login">
+  <div class="login__card">
+    <div class="login__brand">
+      <img src="assets/images/ilyx-logo.png" alt="ILYX" class="login__logo"
+           onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+      <div class="login__logo-text" style="display:none">ILYX</div>
+      <p class="login__tagline">Organiza tu capital, entiende tu negocio.</p>
+    </div>
+
+    <div class="login__form">
+      <div class="login__field">
+        <label class="login__label">Correo Electrónico</label>
+        <input class="login__input" type="email" [(ngModel)]="email"
+               placeholder="correo@empresa.com" />
+      </div>
+      <div class="login__field">
+        <label class="login__label">Contraseña</label>
+        <input class="login__input" type="password" [(ngModel)]="password"
+               placeholder="••••••••" />
+      </div>
+
+      <button class="btn-primary login__btn" (click)="login()">Ingresar</button>
+
+      <div class="login__links">
+        <a href="#" (click)="$event.preventDefault()">¿Olvidaste tu contraseña?</a>
+        <a routerLink="/signup">¿No tienes cuenta? Regístrate</a>
+        </div>
+    </div>
+  </div>
+</div>
