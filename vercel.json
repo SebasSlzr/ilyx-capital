@@ -1,7 +1,0 @@
-{
-  "outputDirectory": "dist/ilyx-capital",
-  "routes": [
-    { "handle": "filesystem" },
-    { "src": "/(.*)", "dest": "/index.html" }
-  ]
-}
