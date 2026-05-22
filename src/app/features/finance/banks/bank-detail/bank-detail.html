@@ -26,7 +26,7 @@
   <div class="bank-detail__table-wrap">
     <div class="bank-detail__table-header">
       <h3 class="bank-detail__subtitle">Movimientos de la cuenta</h3>
-      <span class="bank-detail__count">{{ account.movements.length }} registros</span>
+      <span class="bank-detail__count">{{ movements.length }} registros</span>
     </div>
 
     <div class="bank-detail__cols">
@@ -36,14 +36,12 @@
         <table class="data-table">
           <thead><tr><th>Descripción</th><th>Fecha</th><th>Monto</th></tr></thead>
           <tbody>
-            @for (m of account.movements; track m.description) {
-              @if (m.type === 'income') {
-                <tr>
-                  <td>{{ m.description }}</td>
-                  <td class="td-muted">{{ m.date | date:'d MMM yyyy' }}</td>
-                  <td class="td-income" style="font-weight:600">+{{ m.amount | currencyFormat }}</td>
-                </tr>
-              }
+            @for (m of incomeMovements; track m.id) {
+              <tr>
+                <td>{{ m.description }}</td>
+                <td class="td-muted">{{ m.date | date:'d MMM yyyy' }}</td>
+                <td class="td-income" style="font-weight:600">+{{ m.amount | currencyFormat }}</td>
+              </tr>
             }
           </tbody>
         </table>
@@ -54,14 +52,12 @@
         <table class="data-table">
           <thead><tr><th>Descripción</th><th>Fecha</th><th>Monto</th></tr></thead>
           <tbody>
-            @for (m of account.movements; track m.description) {
-              @if (m.type === 'expense') {
-                <tr>
-                  <td>{{ m.description }}</td>
-                  <td class="td-muted">{{ m.date | date:'d MMM yyyy' }}</td>
-                  <td class="td-expense" style="font-weight:600">-{{ m.amount | currencyFormat }}</td>
-                </tr>
-              }
+            @for (m of expenseMovements; track m.id) {
+              <tr>
+                <td>{{ m.description }}</td>
+                <td class="td-muted">{{ m.date | date:'d MMM yyyy' }}</td>
+                <td class="td-expense" style="font-weight:600">-{{ m.amount | currencyFormat }}</td>
+              </tr>
             }
           </tbody>
         </table>

@@ -15,11 +15,19 @@ export class SignupComponent {
   name = '';
   email = '';
   password = '';
+  error = '';
 
-  constructor(private auth: AuthService, private router: Router) {}
+  constructor(private auth: AuthService, private router: Router) {
+    // Si ya está logueado, ir al dashboard
+    if (this.auth.isLoggedIn()) this.router.navigate(['/dashboard']);
+  }
 
   signup() {
-    this.auth.login();
+    if (!this.name || !this.email || !this.password) {
+      this.error = 'Por favor completa todos los campos obligatorios.';
+      return;
+    }
+    this.auth.register(this.name, this.email, this.businessName);
     this.router.navigate(['/dashboard']);
   }
 }

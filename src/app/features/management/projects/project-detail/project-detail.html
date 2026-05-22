@@ -1,6 +1,5 @@
 <div class="pd" *ngIf="project">
 
-  <!-- Header -->
   <div class="pd__header">
     <button class="back-btn" (click)="goBack()">← Volver a Proyectos</button>
     <div class="pd__title-wrap">
@@ -11,12 +10,9 @@
         {{ statusLabel(project.status) }}
       </span>
     </div>
-    @if (project.description) {
-      <p class="pd__desc">{{ project.description }}</p>
-    }
+    @if (project.description) { <p class="pd__desc">{{ project.description }}</p> }
   </div>
 
-  <!-- KPIs -->
   <div class="pd__kpis">
     <div class="kpi-card">
       <div class="kpi-card__label">Ingresos</div>
@@ -36,18 +32,17 @@
     </div>
   </div>
 
-  <!-- Toolbar -->
   <div class="pd__toolbar">
     <h3 class="pd__subtitle">Historial del Proyecto</h3>
-    <select class="form-input pd__filter" [(ngModel)]="categoryFilter" (ngModelChange)="applyFilter()">
-      <option value="">Todas las categorías</option>
-      @for (cat of categories; track cat) {
-        <option [value]="cat">{{ cat }}</option>
-      }
-    </select>
+    <div style="display:flex; gap:10px; align-items:center">
+      <select class="form-input pd__filter" [(ngModel)]="categoryFilter" (ngModelChange)="applyFilter()">
+        <option value="">Todas las categorías</option>
+        @for (cat of categories; track cat) { <option [value]="cat">{{ cat }}</option> }
+      </select>
+      <button class="btn-primary" (click)="openNew()">+ Nueva Entrada</button>
+    </div>
   </div>
 
-  <!-- Lista de entradas -->
   <div class="pd__list">
     @for (entry of filtered; track entry.id) {
       <div class="entry-row">
@@ -73,8 +68,46 @@
              [class.entry-row__amount--expense]="entry.type==='expense'">
           {{ entry.type === 'income' ? '+' : '-' }}{{ entry.amount | currencyFormat }}
         </div>
+        <button class="action-btn action-btn--danger" (click)="deleteEntry(entry.id)">✕</button>
       </div>
     }
+    @if (filtered.length === 0) {
+      <div style="padding: 32px; text-align:center; color: #5C5585;">No hay entradas registradas</div>
+    }
   </div>
+
+  <!-- Modal nueva entrada -->
+  @if (showModal()) {
+    <div class="modal-overlay" (click)="showModal.set(false)">
+      <div class="modal" (click)="$event.stopPropagation()">
+        <div class="modal__header">
+          <h3 class="modal__title">Nueva Entrada</h3>
+          <button class="modal__close" (click)="showModal.set(false)">✕</button>
+        </div>
+        <div class="modal__body">
+          <div class="modal__toggle">
+            <button class="toggle-btn" [class.toggle-btn--income]="form.type==='income'"   (click)="form.type='income'">↑ Ingreso</button>
+            <button class="toggle-btn" [class.toggle-btn--expense]="form.type==='expense'" (click)="form.type='expense'">↓ Egreso</button>
+          </div>
+          <div class="form-field"><label class="form-label">Producto / Concepto *</label>
+            <input class="form-input" [(ngModel)]="form.productName" placeholder="Nombre del producto o concepto" /></div>
+          <div class="form-field"><label class="form-label">Categoría</label>
+            <select class="form-input" [(ngModel)]="form.category">
+              @for (cat of entryCategories; track cat) { <option [value]="cat">{{ cat }}</option> }
+            </select></div>
+          <div class="form-field"><label class="form-label">Monto *</label>
+            <input class="form-input" type="number" [(ngModel)]="form.amount" placeholder="0" /></div>
+          <div class="form-field"><label class="form-label">Descripción</label>
+            <input class="form-input" [(ngModel)]="form.description" placeholder="Descripción opcional" /></div>
+          <div class="form-field"><label class="form-label">Fecha</label>
+            <input class="form-input" type="date" [(ngModel)]="form.dateStr" /></div>
+        </div>
+        <div class="modal__footer">
+          <button class="btn-secondary" (click)="showModal.set(false)">Cancelar</button>
+          <button class="btn-primary" (click)="save()">Guardar</button>
+        </div>
+      </div>
+    </div>
+  }
 
 </div>

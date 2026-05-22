@@ -11,21 +11,25 @@
     <div class="signup__right">
       <h2 class="signup__title">Crear cuenta</h2>
 
+      @if (error) {
+        <div class="signup__error">{{ error }}</div>
+      }
+
       <div class="signup__form">
         <div class="signup__field">
-          <label class="signup__label">Nombre de la Empresa</label>
-          <input class="signup__input" type="text" [(ngModel)]="businessName" placeholder="Mi Negocio" />
-        </div>
-        <div class="signup__field">
-          <label class="signup__label">Nombre de la Persona</label>
+          <label class="signup__label">Nombre completo *</label>
           <input class="signup__input" type="text" [(ngModel)]="name" placeholder="Tu nombre completo" />
         </div>
         <div class="signup__field">
-          <label class="signup__label">Correo Electrónico</label>
+          <label class="signup__label">Nombre del negocio</label>
+          <input class="signup__input" type="text" [(ngModel)]="businessName" placeholder="Mi Negocio (opcional)" />
+        </div>
+        <div class="signup__field">
+          <label class="signup__label">Correo Electrónico *</label>
           <input class="signup__input" type="email" [(ngModel)]="email" placeholder="correo@empresa.com" />
         </div>
         <div class="signup__field">
-          <label class="signup__label">Contraseña</label>
+          <label class="signup__label">Contraseña *</label>
           <input class="signup__input" type="password" [(ngModel)]="password" placeholder="••••••••" />
         </div>
 

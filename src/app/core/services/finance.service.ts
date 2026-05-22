@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Movement } from '../models/movement.model';
 
-// ← PERSONALIZAR DATOS: Modificar este array para cambiar los datos de ejemplo
-// ← PERSONALIZAR CATEGORÍAS: Agregar o modificar las categorías disponibles
+// ← PERSONALIZAR CATEGORÍAS: Agregar o modificar categorías disponibles
 const CATEGORIES = ['Ventas', 'Servicios', 'Gastos Operativos', 'Nómina', 'Otros'];
+const KEY = 'ilyx_movements';
 
-const MOCK_MOVEMENTS: Movement[] = [
+// ← PERSONALIZAR DATOS: Datos iniciales de ejemplo
+const MOCK: Movement[] = [
   { id: '1',  type: 'income',  amount: 1500000, category: 'Ventas',            description: 'Venta productos octubre',        date: new Date('2024-10-15'), projectId: '1' },
   { id: '2',  type: 'expense', amount: 350000,  category: 'Gastos Operativos', description: 'Pago servicios públicos',         date: new Date('2024-10-18') },
   { id: '3',  type: 'income',  amount: 800000,  category: 'Servicios',         description: 'Consultoría diseño web',          date: new Date('2024-10-22'), clientId: '1' },
@@ -33,35 +34,47 @@ const MOCK_MOVEMENTS: Movement[] = [
 
 @Injectable({ providedIn: 'root' })
 export class FinanceService {
-  private movements = new BehaviorSubject<Movement[]>(MOCK_MOVEMENTS);
-  movements$ = this.movements.asObservable();
+  private movementsSubject: BehaviorSubject<Movement[]>;
   categories = CATEGORIES;
 
-  getAll(): Movement[] { return this.movements.getValue(); }
+  constructor() {
+    // Carga desde localStorage o usa datos iniciales
+    const saved = localStorage.getItem(KEY);
+    const initial: Movement[] = saved
+      ? JSON.parse(saved).map((m: any) => ({ ...m, date: new Date(m.date) }))
+      : MOCK;
+    this.movementsSubject = new BehaviorSubject<Movement[]>(initial);
+    // Persiste cada cambio automáticamente
+    this.movementsSubject.subscribe(data => localStorage.setItem(KEY, JSON.stringify(data)));
+  }
+
+  get movements$() { return this.movementsSubject.asObservable(); }
+
+  getAll(): Movement[] { return this.movementsSubject.getValue(); }
 
   add(movement: Omit<Movement, 'id'>): void {
-    const current = this.movements.getValue();
-    const newMovement: Movement = { ...movement, id: Date.now().toString() };
-    this.movements.next([newMovement, ...current]);
+    const newM: Movement = { ...movement, id: Date.now().toString() };
+    this.movementsSubject.next([newM, ...this.movementsSubject.getValue()]);
   }
 
   update(id: string, data: Partial<Movement>): void {
-    const updated = this.movements.getValue().map(m => m.id === id ? { ...m, ...data } : m);
-    this.movements.next(updated);
+    this.movementsSubject.next(
+      this.movementsSubject.getValue().map(m => m.id === id ? { ...m, ...data } : m)
+    );
   }
 
   delete(id: string): void {
-    this.movements.next(this.movements.getValue().filter(m => m.id !== id));
+    this.movementsSubject.next(this.movementsSubject.getValue().filter(m => m.id !== id));
   }
 
   getRecent(limit = 6): Movement[] {
-    return [...this.movements.getValue()]
+    return [...this.movementsSubject.getValue()]
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
       .slice(0, limit);
   }
 
   getTotalByType(type: 'income' | 'expense'): number {
-    return this.movements.getValue()
+    return this.movementsSubject.getValue()
       .filter(m => m.type === type)
       .reduce((sum, m) => sum + m.amount, 0);
   }

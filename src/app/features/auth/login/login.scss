@@ -54,4 +54,29 @@
     a { font-size: 12px; color: $color-text-muted;
         &:hover { color: $color-purple-light; } }
   }
+
+  &__notice {
+  background: $color-purple-glow;
+  border: 1px solid $color-purple-primary;
+  color: $color-purple-light;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+
+  a {
+    color: $color-text-primary;
+    font-weight: 500;
+    text-decoration: underline;
+    &:hover { color: $color-purple-light; }
+  }
+}
+
+&__notice-icon {
+  font-size: 15px;
+  flex-shrink: 0;
+}
 }

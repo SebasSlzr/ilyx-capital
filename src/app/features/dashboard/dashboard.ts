@@ -17,6 +17,7 @@ import { FinanceService } from '../../core/services/finance.service';
 import { AuthService } from '../../core/services/auth.service';
 import { Movement } from '../../core/models/movement.model';
 import { CurrencyFormatPipe } from '../../shared/pipes/currency-format.pipe';
+import { BanksService } from '../../core/services/banks.service';
 
 Chart.register(LineController, LineElement, PointElement, LinearScale, CategoryScale, Filler, Tooltip);
 
@@ -84,18 +85,19 @@ export class DashboardComponent implements OnInit {
   constructor(
     private financeService: FinanceService,
     private authService: AuthService,
+    private banksService: BanksService,
     private router: Router
   ) {}
 
   
   ngOnInit() {
-    
     const user = this.authService.getUser();
     this.userName = user.name.split(' ')[0];
     this.businessName = user.businessName;
     this.totalIncome  = this.financeService.getTotalByType('income');
     this.totalExpense = this.financeService.getTotalByType('expense');
     this.recentMovements = this.financeService.getRecent(6);
+    this.totalCapital = this.banksService.getTotalBalance(); // ← dinámico desde bancos
     this.buildCharts('mes');
   }
 

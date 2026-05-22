@@ -1,6 +1,13 @@
 <div class="login">
   <div class="login__card">
     <div class="login__brand">
+      @if (noAccount) {
+  <div class="login__notice">
+    <span class="login__notice-icon">ℹ</span>
+    No hay ninguna cuenta registrada en este dispositivo.
+    <a routerLink="/signup">Regístrate aquí</a>
+  </div>
+}
       <img src="assets/images/ilyx-logo.png" alt="ILYX" class="login__logo"
            onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
       <div class="login__logo-text" style="display:none">ILYX</div>

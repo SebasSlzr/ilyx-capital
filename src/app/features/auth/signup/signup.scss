@@ -74,4 +74,13 @@
     a { color: $color-purple-light; margin-left: 4px;
         &:hover { color: $color-text-primary; } }
   }
+
+  &__error {
+  background: $color-danger-bg;
+  border: 1px solid $color-danger;
+  color: $color-danger;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 13px;
+}
 }
